@@ -97,9 +97,9 @@ docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 #### Scan dangerous-behavior:latest $\rightarrow$ Result: HIGH RISK.
 
 ## 📁 Project Structure
-### app/: Flask web server and UI templates.
-### static_scan/: Scripts for Trivy, YARA, and ClamAV logic.
-### dynamic_scan/: Scripts for running the container and parsing Falco logs.
+* app/: Flask web server and UI templates.
+* static_scan/: Scripts for Trivy, YARA, and ClamAV logic.
+* dynamic_scan/: Scripts for running the container and parsing Falco logs.
 ### ml_model/: Logic for Risk Score calculation.
 ### malware_test/: Dockerfiles for creating test data.
 
