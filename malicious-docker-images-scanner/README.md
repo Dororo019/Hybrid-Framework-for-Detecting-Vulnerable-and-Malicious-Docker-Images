@@ -153,6 +153,46 @@ docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 * Scan dangerous-behavior:latest $\rightarrow$ Result: HIGH RISK.
 * Scan other images as well by following the same steps such as by entering the image name and the respective tag version.
 
+##   📄 Synthetic Test Images
+The repository includes multiple Dockerfiles in a tests directory (or root):
+* 	Dockerfile.clean → builds scanner-test:clean
+	* Baseline image with no deliberate malware.
+   *	Trivy may still find a few low/medium CVEs, so the framework usually reports MEDIUM risk with a moderate score.
+*	Dockerfile.vuln / Dockerfile.vulnerable → builds scanner-test:vulnerable
+   *	Uses an older Alpine version and installs additional packages, ensuring more vulnerabilities.
+   *	Trivy reports a larger number of CVEs, often raising the risk score above the clean case.
+*	Dockerfile.signature → builds scanner-test:signature
+   *	Creates a file containing the EICAR test string under /tmp/malware/eicar.txt.
+   *	This is a standard, harmless test string that antivirus tools treat as malware.
+   *	ClamAV and YARA detect this string, which pushes the risk level to CRITICAL.
+*	Dockerfile.behavior + miner_sim.sh → builds scanner-test:behavior
+   *	Executes a simple “fake miner” shell script that outputs messages in an infinite loop, lightly consuming CPU.
+   *	Falco sees repeated process activity and generates alerts, showing how behaviour alone can raise risk.
+*	Dockerfile.poisoned + entrypoint.sh → builds scanner-test:poisoned
+   *	Combines a signature-based payload and suspicious actions such as touching unusual directories and attempting to read /etc/shadow.
+   *	Static and dynamic modules simultaneously report issues, producing a strong CRITICAL classification.
+*	Legacy images built earlier:
+   *	dangerous-vuln:latest
+   *	dangerous-behaviour:latest
+   *	dangerous-signature:latest
+   *	dangerous-test-image:latest
+These represent the first generation of test images. Their purpose matches the newer scanner-test:* variants and they are kept to show evolution of the experiment design.
+ 
+## Risk Levels and Interpretation
+*	LOW (0–19)
+   *	Few or no vulnerabilities, no malware signatures, and no significant Falco alerts.
+   *	Image may be used in low-risk contexts but still should be patched regularly.
+*	MEDIUM (20–49)
+   *	Multiple vulnerabilities or noticeable behavioural alerts, but no malware signatures.
+   *	Image should be reviewed and updated before use in production.
+*	HIGH (50–79)
+   *	Presence of high/critical CVEs, many Falco alerts, or early signs of malicious modification.
+   *	Image is strongly discouraged for use until weaknesses are fixed.
+*	CRITICAL (80–100)
+   *	Confirmed malware signatures from YARA or ClamAV, combined with dangerous runtime behaviour.
+   *	Image must be blocked; it represents a direct compromise risk.
+
+
 ## 📁 Project Structure
 * app/: Flask web server and UI templates.
 * static_scan/: Scripts for Trivy, YARA, and ClamAV logic.
