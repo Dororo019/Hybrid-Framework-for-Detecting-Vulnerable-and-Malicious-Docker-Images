@@ -88,6 +88,11 @@ sudo systemctl start docker
 git clone [https://github.com/AmritaCSN/malicious-docker-images-scanner.git](https://github.com/AmritaCSN/malicious-docker-images-scanner.git)
 cd malicious-docker-images-scanner
 ```
+* Create and Activate Virtual Environment
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 * Install Python dependencies
 ```bash
 pip3 install -r requirements.txt
