@@ -63,37 +63,53 @@ Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on 
 1. System Prerequisites
 Run the following commands in your Ubuntu terminal to install the necessary engines:
 * Update repositories
+```bash
 sudo apt-get update
+```
 
 * Install ClamAV (Antivirus Engine)
+```bash
 sudo apt-get install clamav clamav-daemon -y
+```
 
 * Install YARA (Pattern Matching)
+```bash
 sudo apt-get install yara -y
+```
 
 * Ensure Docker is installed and running
+```bash
 sudo systemctl start docker
+```
 (Note: Falco must be installed separately following the official Falco docs).
 
 2. Clone & Install Project
+```bash
 git clone [https://github.com/AmritaCSN/malicious-docker-images-scanner.git](https://github.com/AmritaCSN/malicious-docker-images-scanner.git)
 cd malicious-docker-images-scanner
-
+```
 * Install Python dependencies
+```bash
 pip3 install -r requirements.txt
-
+```
 3. Run the Scanner
+```bash
 python3 run.py
+```
 The application will start on http://localhost:5000.
 
 ## 🧪 How to Test (Proof of Concept)To prove the efficacy of the scanner, we have created custom "Dangerous" images that mimic real-world threats.
 
 1. Build the Malware Test Image (Signature-based) This image contains the EICAR test string, which triggers YARA/ClamAV.
 * Run inside /malware_test folder
+```bash
 docker build -f Dockerfile.signature -t dangerous-test-image:latest .
+```
 2. Build the Behavior Test Image (Runtime-based) This image runs a script mimicking a crypto-miner, which triggers Falco.
 * Run inside /malware_test folder
+```bash
 docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
+```
 3. Scan them!
 * Go to http://localhost:5000.
 * Scan dangerous-test-image:latest $\rightarrow$ Result: CRITICAL (Score: 100).
