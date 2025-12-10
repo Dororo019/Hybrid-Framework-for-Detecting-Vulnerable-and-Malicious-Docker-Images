@@ -64,28 +64,23 @@ Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).\
 Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.
 ### 1. System Prerequisites
 Run the following commands in your Ubuntu terminal to install the necessary engines:
-**Update repositories**
 ```bash
+# Update repositories
 sudo apt-get update
-```
 
-**Install ClamAV & YARA (Antivirus & Pattern Matching)**
-#libyara-dev' is required for the Python YARA library to work correctly
-```bash
+# Install ClamAV & YARA (Antivirus & Pattern Matching)
 #libyara-dev' is required for the Python YARA library to work correctly
 sudo apt-get install clamav clamav-daemon yara libyara-dev -y
-```
-**Install Trivy (Vulnerability Scanner)**
-```bash
+
+# Install Trivy (Vulnerability Scanner)
 #Trivy is not in default repos, so we install it manually:` 
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y
 wget -qO - [https://aquasecurity.github.io/trivy-repo/deb/public.key](https://aquasecurity.github.io/trivy-repo/deb/public.key) | sudo apt-key add -
 echo deb [https://aquasecurity.github.io/trivy-repo/deb](https://aquasecurity.github.io/trivy-repo/deb) $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update
 sudo apt-get install trivy
-```
-**Ensure Docker is installed and running**
-```bash
+
+# Ensure Docker is installed and running
 sudo systemctl start docker
 sudo usermod -aG docker $USER
 ```
