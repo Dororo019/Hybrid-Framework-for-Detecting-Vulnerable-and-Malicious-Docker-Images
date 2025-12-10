@@ -11,6 +11,11 @@ Most standard security tools (like Trivy) only look at the "packing list" (metad
 3.  **Executes** the container in a sandbox to watch for suspicious behavior (Dynamic Analysis).
 4.  **Aggregates** all findings into a single **Risk Score (0-100)**.
 
+## 📸 Examples of GUI:
+| **Critical Risk Alert (Web UI)** | **Build Process (Terminal)** |
+|:---:|:---:|
+| ![Dashboard](dashboard_scan.png) | ![Terminal](terminal_build.png) |
+
 ---
 
 ## 🚀 Key Features
@@ -25,7 +30,7 @@ Most standard security tools (like Trivy) only look at the "packing list" (metad
     * **Critical Risk (100):** If *any* malware signature is found.
     * **High/Medium Risk:** Based on the severity of CVEs and runtime alerts.
 * **Web Dashboard:**
-    * Simple UI to input `image:tag`.
+    * Simple UI to input `image_name:version_tag`.
     * Real-time scanning status.
     * "Pass/Block" decision based on the final score.
 
@@ -91,13 +96,13 @@ sudo usermod -aG docker $USER
 git clone [https://github.com/AmritaCSN/malicious-docker-images-scanner.git](https://github.com/AmritaCSN/malicious-docker-images-scanner.git)
 cd malicious-docker-images-scanner
 ```
-* Create and Activate Virtual Environment
 ```bash
+# Create and Activate Virtual Environment
 python3 -m venv venv
 source venv/bin/activate
 ```
-* Install Python dependencies
 ```bash
+# Install Python dependencies
 pip3 install -r requirements.txt
 ```
 ### 3. Run the Scanner
@@ -106,23 +111,47 @@ python3 run.py
 ```
 The application will start on http://localhost:5000.
 
+## 🕵️ Usage Guide
+
+### 1. Scanning Standard Images (Docker Hub)
+The scanner can analyze **any** Docker image present on your system (pulled from Docker Hub or built locally).
+
+**Example: Scanning the official Nginx image**
+1.  Pull the image first:
+    ```bash
+    docker pull nginx:latest
+    ```
+2.  Go to the Web Dashboard (`http://localhost:5000`).
+3.  Enter the image name:
+    ```text
+    nginx:latest
+    ```
+4.  Click **Initialize Scan**. The tool will extract the file system and run all checks (Trivy, YARA, ClamAV, Falco).
+
+### 2. Scanning Custom/Local Images
+You can also scan images you have built yourself. Just ensure the image exists in your local registry by running `docker images`.
+
+---
+
 ## 🧪 How to Test (Proof of Concept)
 To prove the efficacy of the scanner, we have created custom "Dangerous" images that mimic real-world threats.
 
 1. Build the Malware Test Image (Signature-based) This image contains the EICAR test string, which triggers YARA/ClamAV.
-* Run inside /malware_test folder
 ```bash
+# Run inside /malware_test folder
 docker build -f Dockerfile.signature -t dangerous-test-image:latest .
 ```
 2. Build the Behavior Test Image (Runtime-based) This image runs a script mimicking a crypto-miner, which triggers Falco.
-* Run inside /malware_test folder
+
 ```bash
+# Run inside /malware_test folder
 docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 ```
 3. Scan them!
 * Go to http://localhost:5000.
 * Scan dangerous-test-image:latest $\rightarrow$ Result: CRITICAL (Score: 100).
 * Scan dangerous-behavior:latest $\rightarrow$ Result: HIGH RISK.
+* Scan other images as well by following the same steps such as by entering the image name and the respective tag version.
 
 ## 📁 Project Structure
 * app/: Flask web server and UI templates.
@@ -160,3 +189,12 @@ docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 14. GitHub - anchore/grype: A vulnerability scanner for container images and filesystems. 
 15. GitHub - anchore/syft: CLI tool and library for generating a Software Bill of Materials from container images.
 16. ClamAV: Open-Source Antivirus Software Toolkit for UNIX (Cisco Talos Intelligence Group).
+
+## 🔧 Troubleshooting
+
+* **Error: `docker: permission denied`**
+    * **Fix:** Run `sudo usermod -aG docker $USER` and restart your VM (or log out/in).
+* **Error: `Falco: kernel module not found`**
+    * **Fix:** Ensure you are running on a Linux host/VM. Falco does not support standard Windows/WSL2 kernels natively without specific tuning.
+* **Scanner hangs on "Pulling image..."**
+    * **Fix:** Check your internet connection. Docker Hub requires a stable network to download new layers.
