@@ -178,7 +178,7 @@ The repository includes multiple Dockerfiles in a tests directory (or root):
    	*	dangerous-test-image:latest
 These represent the first generation of test images. Their purpose matches the newer scanner-test:* variants and they are kept to show evolution of the experiment design.
  
-## Risk Levels and Interpretation
+## 💥 Risk Levels and Interpretation
 *	LOW (0–19)
    	*	Few or no vulnerabilities, no malware signatures, and no significant Falco alerts.
    	*	Image may be used in low-risk contexts but still should be patched regularly.
