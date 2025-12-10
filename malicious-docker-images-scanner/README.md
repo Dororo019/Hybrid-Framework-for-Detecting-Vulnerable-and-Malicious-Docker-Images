@@ -58,30 +58,41 @@ graph TD
     
     Aggregator -->|Score & Alerts| Report[Analysis Report]
 ```
-💻 Installation & SetupRecommended Environment: Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.1. System PrerequisitesRun the following commands in your Ubuntu terminal to install the necessary engines:Bash# Update repositories
+##💻 Installation & SetupRecommended Environment: Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.
+###1. System PrerequisitesRun the following commands in your Ubuntu terminal to install the necessary engines:
+#### Update repositories
 sudo apt-get update
 
-# Install ClamAV (Antivirus Engine)
+#### Install ClamAV (Antivirus Engine)
 sudo apt-get install clamav clamav-daemon -y
 
-# Install YARA (Pattern Matching)
+#### Install YARA (Pattern Matching)
 sudo apt-get install yara -y
 
-# Ensure Docker is installed and running
+#### Ensure Docker is installed and running
 sudo systemctl start docker
-(Note: Falco must be installed separately following the official Falco docs).2. Clone & Install ProjectBashgit clone [https://github.com/AmritaCSN/malicious-docker-images-scanner.git](https://github.com/AmritaCSN/malicious-docker-images-scanner.git)
+(Note: Falco must be installed separately following the official Falco docs).
+
+###2. Clone & Install ProjectBashgit clone [https://github.com/AmritaCSN/malicious-docker-images-scanner.git](https://github.com/AmritaCSN/malicious-docker-images-scanner.git)
 cd malicious-docker-images-scanner
 
-# Install Python dependencies
+#### Install Python dependencies
 pip3 install -r requirements.txt
-3. Run the ScannerBashpython3 run.py
-The application will start on http://localhost:5000.🧪 How to Test (Proof of Concept)To prove the efficacy of the scanner, we have created custom "Dangerous" images that mimic real-world threats.1. Build the Malware Test Image (Signature-based)This image contains the EICAR test string, which triggers YARA/ClamAV.Bash# Run inside /malware_test folder
+
+###3. Run the Scanner
+python3 run.py
+The application will start on http://localhost:5000.
+
+##🧪 How to Test (Proof of Concept)To prove the efficacy of the scanner, we have created custom "Dangerous" images that mimic real-world threats.
+###1. Build the Malware Test Image (Signature-based)This image contains the EICAR test string, which triggers YARA/ClamAV.
+#### Run inside /malware_test folder
 docker build -f Dockerfile.signature -t dangerous-test-image:latest .
-2. Build the Behavior Test Image (Runtime-based)This image runs a script mimicking a crypto-miner, which triggers Falco.Bash# Run inside /malware_test folder
+###2. Build the Behavior Test Image (Runtime-based)This image runs a script mimicking a crypto-miner, which triggers Falco.Bash# Run inside /malware_test folder
 docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
-3. Scan them!Go to http://localhost:5000.Scan dangerous-test-image:latest $\rightarrow$ Result: CRITICAL (Score: 100).Scan dangerous-behavior:latest $\rightarrow$ Result: HIGH RISK.📁 Project Structureapp/: Flask web server and UI templates.static_scan/: Scripts for Trivy, YARA, and ClamAV logic.dynamic_scan/: Scripts for running the container and parsing Falco logs.ml_model/: Logic for Risk Score calculation.malware_test/: Dockerfiles for creating test data.
-References
-Conference Papers
+###3. Scan them!Go to http://localhost:5000.Scan dangerous-test-image:latest $\rightarrow$ Result: CRITICAL (Score: 100).Scan dangerous-behavior:latest $\rightarrow$ Result: HIGH RISK.📁 Project Structureapp/: Flask web server and UI templates.static_scan/: Scripts for Trivy, YARA, and ClamAV logic.dynamic_scan/: Scripts for running the container and parsing Falco logs.ml_model/: Logic for Risk Score calculation.malware_test/: Dockerfiles for creating test data.
+
+##References
+###Conference Papers
 
 Rui Shu, Xiaohui Gu, and William Enck. "A Study of Security Vulnerabilities on Docker Hub," Proceedings of the Seventh ACM Conference on Data and Application Security and Privacy (CODASPY '17). ACM, New York, NY, USA, 2017, pp. 269–280.
 
