@@ -57,7 +57,8 @@ graph TD
     Falco --> Aggregator
     
     Aggregator -->|Score & Alerts| Report[Analysis Report]
-##💻 Installation & SetupRecommended Environment: Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.1. System PrerequisitesRun the following commands in your Ubuntu terminal to install the necessary engines:Bash# Update repositories
+
+💻 Installation & SetupRecommended Environment: Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.1. System PrerequisitesRun the following commands in your Ubuntu terminal to install the necessary engines:Bash# Update repositories
 sudo apt-get update
 
 # Install ClamAV (Antivirus Engine)
