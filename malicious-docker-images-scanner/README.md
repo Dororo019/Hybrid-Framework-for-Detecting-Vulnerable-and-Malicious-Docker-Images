@@ -61,7 +61,7 @@ graph TD
     ClamAV --> Aggregator
     Falco --> Aggregator
     
-    Aggregator -->|Score & Alerts| Report[Analysis Report(Web Report)]
+    Aggregator -->|Score & Alerts| Report[Analysis Report]
 ```
 ## 💻 Installation & Setup
 **Recommended Environment:**
