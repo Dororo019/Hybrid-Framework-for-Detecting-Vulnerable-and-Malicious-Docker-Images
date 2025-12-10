@@ -58,37 +58,40 @@ graph TD
     
     Aggregator -->|Score & Alerts| Report[Analysis Report]
 ```
-## 💻 Installation & SetupRecommended Environment: 
-Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.
-1. System Prerequisites
+## 💻 Installation & Setup
+**Recommended Environment:**
+Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).\
+Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.
+### 1. System Prerequisites
 Run the following commands in your Ubuntu terminal to install the necessary engines:
-** Update repositories
+**Update repositories**
 ```bash
 sudo apt-get update
 ```
 
-** Install ClamAV & YARA (Antivirus & Pattern Matching)
-<!-- 'libyara-dev' is required for the Python YARA library to work correctly -->
+**Install ClamAV & YARA (Antivirus & Pattern Matching)**
+#libyara-dev' is required for the Python YARA library to work correctly
 ```bash
+#libyara-dev' is required for the Python YARA library to work correctly
 sudo apt-get install clamav clamav-daemon yara libyara-dev -y
 ```
-** Install Trivy (Vulnerability Scanner)
+**Install Trivy (Vulnerability Scanner)**
 ```bash
-`#Trivy is not in default repos, so we install it manually:` 
+#Trivy is not in default repos, so we install it manually:` 
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y
 wget -qO - [https://aquasecurity.github.io/trivy-repo/deb/public.key](https://aquasecurity.github.io/trivy-repo/deb/public.key) | sudo apt-key add -
 echo deb [https://aquasecurity.github.io/trivy-repo/deb](https://aquasecurity.github.io/trivy-repo/deb) $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update
 sudo apt-get install trivy
 ```
-** Ensure Docker is installed and running
+**Ensure Docker is installed and running**
 ```bash
 sudo systemctl start docker
 sudo usermod -aG docker $USER
 ```
 (Note: Falco must be installed separately following the official Falco docs).
 
-2. Clone & Install Project
+### 2. Clone & Install Project
 ```bash
 git clone [https://github.com/AmritaCSN/malicious-docker-images-scanner.git](https://github.com/AmritaCSN/malicious-docker-images-scanner.git)
 cd malicious-docker-images-scanner
@@ -102,7 +105,7 @@ source venv/bin/activate
 ```bash
 pip3 install -r requirements.txt
 ```
-3. Run the Scanner
+### 3. Run the Scanner
 ```bash
 python3 run.py
 ```
