@@ -61,25 +61,30 @@ graph TD
 ## 💻 Installation & SetupRecommended Environment: 
 Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.
 1. System Prerequisites
-Run the following commands in your Ubuntu terminal to install the necessary engines:
-* Update repositories
+* Run the following commands in your Ubuntu terminal to install the necessary engines:
+** Update repositories
 ```bash
 sudo apt-get update
 ```
 
-* Install ClamAV (Antivirus Engine)
+** Install ClamAV & YARA (Antivirus & Pattern Matching)
+<!-- 'libyara-dev' is required for the Python YARA library to work correctly -->
 ```bash
-sudo apt-get install clamav clamav-daemon -y
+sudo apt-get install clamav clamav-daemon yara libyara-dev -y
 ```
-
-* Install YARA (Pattern Matching)
+** Install Trivy (Vulnerability Scanner)
 ```bash
-sudo apt-get install yara -y
+`#`Trivy is not in default repos, so we install it manually:
+sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+wget -qO - [https://aquasecurity.github.io/trivy-repo/deb/public.key](https://aquasecurity.github.io/trivy-repo/deb/public.key) | sudo apt-key add -
+echo deb [https://aquasecurity.github.io/trivy-repo/deb](https://aquasecurity.github.io/trivy-repo/deb) $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install trivy
 ```
-
-* Ensure Docker is installed and running
+** Ensure Docker is installed and running
 ```bash
 sudo systemctl start docker
+sudo usermod -aG docker $USER
 ```
 (Note: Falco must be installed separately following the official Falco docs).
 
@@ -103,7 +108,8 @@ python3 run.py
 ```
 The application will start on http://localhost:5000.
 
-## 🧪 How to Test (Proof of Concept)To prove the efficacy of the scanner, we have created custom "Dangerous" images that mimic real-world threats.
+## 🧪 How to Test (Proof of Concept)
+To prove the efficacy of the scanner, we have created custom "Dangerous" images that mimic real-world threats.
 
 1. Build the Malware Test Image (Signature-based) This image contains the EICAR test string, which triggers YARA/ClamAV.
 * Run inside /malware_test folder
