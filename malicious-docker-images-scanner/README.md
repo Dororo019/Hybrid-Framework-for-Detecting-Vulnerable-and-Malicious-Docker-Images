@@ -61,7 +61,7 @@ graph TD
 ## 💻 Installation & SetupRecommended Environment: 
 Ubuntu 20.04/22.04 LTS (Virtual Machine or Native).Note: This project relies on Linux-specific tools (Falco, ClamAV) and is optimized for Linux environments.
 1. System Prerequisites
-* Run the following commands in your Ubuntu terminal to install the necessary engines:
+Run the following commands in your Ubuntu terminal to install the necessary engines:
 ** Update repositories
 ```bash
 sudo apt-get update
@@ -74,7 +74,7 @@ sudo apt-get install clamav clamav-daemon yara libyara-dev -y
 ```
 ** Install Trivy (Vulnerability Scanner)
 ```bash
-`#`Trivy is not in default repos, so we install it manually:
+`#Trivy is not in default repos, so we install it manually:` 
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y
 wget -qO - [https://aquasecurity.github.io/trivy-repo/deb/public.key](https://aquasecurity.github.io/trivy-repo/deb/public.key) | sudo apt-key add -
 echo deb [https://aquasecurity.github.io/trivy-repo/deb](https://aquasecurity.github.io/trivy-repo/deb) $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
@@ -135,7 +135,7 @@ docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 
 ## References
 
-* Conference Papers
+* **Conference Papers**
 
 1. Rui Shu, Xiaohui Gu, and William Enck. "A Study of Security Vulnerabilities on Docker Hub," Proceedings of the Seventh ACM Conference on Data and Application Security and Privacy (CODASPY '17). ACM, New York, NY, USA, 2017, pp. 269–280.
 
@@ -145,7 +145,7 @@ docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 
 4. Vivek Saxena, Deepika Saxena, and Uday Pratap Singh. "Security Enhancement using Image verification method to Secure Docker Containers," Proceedings of the 4th International Conference on Information Management & Machine Intelligence (ICIMMI '22). ACM, New York, NY, USA, 2023, Article 42, pp. 1–5.
 
-* Journal Articles & Surveys 
+* **Journal Articles & Surveys** 
 
 5. Devi Priya V S, Sibi Chakkaravarthy Sethuraman, and Muhammad Khurram Khan. "Container security: Precaution levels, mitigation strategies, and research perspectives," Computers & Security, Volume 135, 2023.
 6. Omar Jarkas, Ryan Ko, Naipeng Dong, and Redowan Mahmud. "A Container Security Survey: Exploits, Attacks, and Defenses," ACM Computing Surveys, Vol. 57, No. 7, Article 170, July 2025.
@@ -153,7 +153,7 @@ docker build -f Dockerfile.behavior -t dangerous-behavior:latest .
 8. Rui Queiroz, Tiago Cruz, Jérôme Mendes, Pedro Sousa, and Paulo Simões. "Container-based Virtualization for Real-time Industrial Systems—A Systematic Review," ACM Computing Surveys, 2023.
 9. Ajith, V., Cyriac, T., Chavda, C., Kiyani, A. T., Chennareddy, V., & Ali, K. "Analyzing Docker Vulnerabilities through Static and Dynamic Methods and Enhancing IoT Security with AWS IoT Core, CloudWatch, and GuardDuty," Preprints, 2024.
 
-* Online Resources & Tools 
+* **Online Resources & Tools**
 
 10. Docker Security Documentation: https://docs.docker.com/engine/security/ 
 11. Tigera.io: "Container Vulnerability Scanning: Importance & 10 Best Practices." 
