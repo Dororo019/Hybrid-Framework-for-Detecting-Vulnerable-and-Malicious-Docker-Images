@@ -36,7 +36,7 @@ Most standard security tools (like Trivy) only look at the "packing list" (metad
 
 ---
 
-## ⚙️ System Architecture
+## ⚙️Architecture Diagram
 
 The scanner operates in a 4-step hybrid pipeline.
 
@@ -178,6 +178,7 @@ The repository includes multiple Dockerfiles in a tests directory (or root):
    	*	dangerous-test-image:latest
 These represent the first generation of test images. Their purpose matches the newer scanner-test:* variants and they are kept to show evolution of the experiment design.
  
+<!--
 ## 💥 Risk Levels and Interpretation
 *	LOW (0–19)
    	*	Few or no vulnerabilities, no malware signatures, and no significant Falco alerts.
@@ -192,7 +193,7 @@ These represent the first generation of test images. Their purpose matches the n
    	*	Confirmed malware signatures from YARA or ClamAV, combined with dangerous runtime behaviour.
    	*	Image must be blocked; it represents a direct compromise risk.
 
-
+-->
 ## 📁 Project Structure
 * app/: Flask web server and UI templates.
 * static_scan/: Scripts for Trivy, YARA, and ClamAV logic.
@@ -200,7 +201,7 @@ These represent the first generation of test images. Their purpose matches the n
 * ml_model/: Logic for Risk Score calculation.
 * malware_test/: Dockerfiles for creating test data.
 
-## References
+<!--## References
 
 * **Conference Papers**
 
@@ -238,3 +239,4 @@ These represent the first generation of test images. Their purpose matches the n
     * **Fix:** Ensure you are running on a Linux host/VM. Falco does not support standard Windows/WSL2 kernels natively without specific tuning.
 * **Scanner hangs on "Pulling image..."**
     * **Fix:** Check your internet connection. Docker Hub requires a stable network to download new layers.
+-->
